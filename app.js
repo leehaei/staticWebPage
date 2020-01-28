@@ -139,6 +139,7 @@ app.post('/req', function(request, response) {
     var notes = request.body.q9;
 
     console.log("received");
+    response.redirect('/home');
     /*
     var res;
     var xhr = new XMLHttpRequest();
