@@ -1,12 +1,8 @@
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 var bodyParser = require('body-parser'); 
 
@@ -14,6 +10,7 @@ require('dotenv').config();
 
 const AUTH_USER = process.env.AUTH_USER;
 const AUTH_PWD = process.env.AUTH_PWD;
+var submit = false;
 
 var app = express();
 
@@ -35,26 +32,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-/*
-//app.use('/', indexRouter);
-//app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-*/
 
 app.get('/denyAccess', function(request, response) {
     response.render('denyAccess');
@@ -74,7 +51,12 @@ app.get('/incorrect', function(request, response) {
 });
 
 app.get('/success', function(request, response) {
-    response.render('denyAccess');
+    if((!request.session.loggedin) ||(!submit)) {
+        response.render('denyAccess');
+    } else {
+        submit = false;
+        response.render('success');
+    }
 });
 
 //login/main page
@@ -119,16 +101,7 @@ app.post('/auth', function(request, response) {
 
 //Receives form submission
 app.post('/req', function(request, response) {
-    var fname = request.body.q1;
-    var lname = request.body.q2;
-    var email = request.body.q3;
-    var duedate = request.body.q4;
-    var summary = request.body.q5;
-    var bImpact = request.body.q6;
-    var frImpact = request.body.q7;
-    var pRisks = request.body.q8;
-    var notes = request.body.q9;
-
+    submit = true;
     console.log("received");
     response.redirect('/success');
 
@@ -137,9 +110,6 @@ app.post('/req', function(request, response) {
 app.get('/auth', function(request, response) {
     response.render('denyAccess');
 });
-
-
-//app.listen(3000, () => console.log("NodeJS Web Application is now running on port 3000"));
 
 
 module.exports = app;
