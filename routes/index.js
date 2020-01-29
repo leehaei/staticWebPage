@@ -36,10 +36,10 @@ router.get('/incorrect', function(req, res) {
     });
 });
 
-router.get('/cannotView', function(req, res) {
-    res.render('cannotView', {
-        page:'CannotView',
-        menuId: 'cannotView'
+router.get('/success', function(req, res) {
+    res.render('success', {
+        page:'Success',
+        menuId: 'success'
     });
 });
 

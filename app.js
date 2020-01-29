@@ -9,8 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var bodyParser = require('body-parser'); 
-//var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
-//const http = require('http');
+
 require('dotenv').config();
 
 const AUTH_USER = process.env.AUTH_USER;
@@ -26,15 +25,6 @@ app.use(session({
 
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
-
-/*
-http.createServer(function(req, res){
-    res.writeHead(200, {
-      'Content-Type': 'text/plain'
-    });
-    res.end('Hello! Server created\n');
-  }).listen(8080);
-  */
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -65,12 +55,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 */
-app.get('/cannotView', function(request, response) {
-    response.render('cannotView');
-});
 
 app.get('/denyAccess', function(request, response) {
-    response.render('cannotView');
+    response.render('denyAccess');
 });
 
 //main page
@@ -83,7 +70,11 @@ app.get('/home', function(request, response) {
 });
 
 app.get('/incorrect', function(request, response) {
-    response.render('cannotView');
+    response.render('denyAccess');
+});
+
+app.get('/success', function(request, response) {
+    response.render('denyAccess');
 });
 
 //login/main page
@@ -139,26 +130,12 @@ app.post('/req', function(request, response) {
     var notes = request.body.q9;
 
     console.log("received");
-    response.redirect('/home');
-    /*
-    var res;
-    var xhr = new XMLHttpRequest();
-    var url = "http://127.0.0.1:8080/";
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        res = xhr.responseText;
-    }
-};
-var data = JSON.stringify({"email": "hey@mail.com", "password": "101010"});
-xhr.send(data);
-console.log(JSON.parse(res));
-*/
+    response.redirect('/success');
+
 });
 
 app.get('/auth', function(request, response) {
-    response.render('cannotView');
+    response.render('denyAccess');
 });
 
 
