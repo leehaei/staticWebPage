@@ -50,6 +50,10 @@ app.get('/incorrect', function(request, response) {
     response.render('denyAccess');
 });
 
+app.get('/slack', function(request, response) {
+    response.render('slack');
+});
+
 app.get('/success', function(request, response) {
     if((!request.session.loggedin) ||(!submit)) {
         response.render('denyAccess');

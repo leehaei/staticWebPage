@@ -43,4 +43,11 @@ router.get('/success', function(req, res) {
     });
 });
 
+router.get('/slack', function(req, res) {
+    res.render('slack', {
+        page:'Slack',
+        menuId: 'slack'
+    });
+});
+
 module.exports = router;
